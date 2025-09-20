@@ -378,14 +378,12 @@ const Search = () => {
               </div>
             </div>
 
-            <div className="md:flex lg:flex sm:grid sm:grid-cols-3 justify-center mt-6md:gap-2 gap-3">
-              {["Exact dates", "± 1 day", "± 2 days", "± 3 days", "± 7 days", "± 14 days"].map((option) => (
+            <div className="md:flex lg:flex sm:grid sm:grid-cols-3 justify-center mt-6 md:gap-2 gap-2">
+              {["Exact dates", "± 1 day", "± 2 days", "± 3 days", "± 7 days"].map((option) => (
                 <button
                   key={option}
                   onClick={() => {
                     setSelectedFlexDays(option);
-
-
                     if (selectedDates.checkin) {
                       setFormValues((prev) => ({
                         ...prev,
@@ -396,7 +394,7 @@ const Search = () => {
                       }));
                     }
                   }}
-                  className={`px-4 m-2 py-2 border rounded-full text-sm transition 
+                  className={`px-4 md:px-6 lg:px-6 m-2 py-2 border rounded-full text-sm transition 
         ${selectedFlexDays === option
                       ? "border-black bg-gray-50"
                       : "border-gray-300 hover:border-black"}

@@ -4,9 +4,7 @@ import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import Search from "@/components/Search";
-import { dir } from "i18next";
-import { languages } from "../i18n/settings"; // we’ll create this
-import { NextIntlClientProvider } from "next-intl";
+import { I18nProvider } from "@/contexts/I18nContext";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -23,26 +21,41 @@ export const metadata: Metadata = {
   description: "Airbnb | Vacation rentals, cabins, beach houses, & more",
 };
 
-export async function generateStaticParams() {
-  return languages.map((lng: any) => ({ lng }));
-}
+// export default function RootLayout({
+//   children,
+//    params: { lng },
+// }: Readonly<{
+//   children: React.ReactNode;
+//    params: { lng: string };
+// }>) {
+//   return (
+//     <html lang={lng} dir="ltr">
+//       <body
+//         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+//       >
+//         <Navbar></Navbar>
+//         <Search></Search>
+//         {children}
+//         <Footer></Footer>
+//       </body>
+//     </html>
+//   );
+// }
 
 export default function RootLayout({
   children,
-   params: { lng },
-}: Readonly<{
+}: {
   children: React.ReactNode;
-   params: { lng: string };
-}>) {
+}) {
   return (
-    <html lang={lng} dir="ltr">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        <Navbar></Navbar>
-        <Search></Search>
-        {children}
-        <Footer></Footer>
+    <html lang="en">
+      <body  className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+        <I18nProvider>
+          <Navbar />
+          <Search></Search>
+          <main>{children}</main>
+          <Footer></Footer>
+        </I18nProvider>
       </body>
     </html>
   );
