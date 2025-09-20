@@ -1,44 +1,22 @@
+// src/services/getApis.js
 
-export const getPlacesinDhaka = async () => {
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+
+const fetchData = async (endpoint) => {
   try {
-    const res = await fetch("http://localhost:5000/places-in-dhaka"); 
+    const res = await fetch(`${API_URL}${endpoint}`);
+    if (!res.ok) {
+      throw new Error(`HTTP error! Status: ${res.status}`);
+    }
     const data = await res.json();
     return data;
   } catch (err) {
-    console.error("Error fetching places:", err);
+    console.error(`Error fetching ${endpoint}:`, err);
     return [];
   }
 };
 
-export const getPlacesinBusan = async () => {
-  try {
-    const res = await fetch("http://localhost:5000/places-in-busan"); 
-    const data = await res.json();
-    console.log(data)
-    return data;
-  } catch (err) {
-    console.error("Error fetching places:", err);
-    return [];
-  }
-};
-export const getPlacesinKualalampur = async () => {
-  try {
-    const res = await fetch("http://localhost:5000/places-in-kualalampur"); 
-    const data = await res.json();
-    // console.log(data)
-    return data;
-  } catch (err) {
-    console.error("Error fetching places:", err);
-    return [];
-  }
-};
-export const getSearchDestinations = async () => {
-  try {
-    const res = await fetch("http://localhost:5000/search-destinations"); 
-    const data = await res.json();
-    return data;
-  } catch (err) {
-    console.error("Error fetching places:", err);
-    return [];
-  }
-};
+export const getPlacesinDhaka = () => fetchData("/places-in-dhaka");
+export const getPlacesinBusan = () => fetchData("/places-in-busan");
+export const getPlacesinKualalampur = () => fetchData("/places-in-kualalampur");
+export const getSearchDestinations = () => fetchData("/search-destinations");
