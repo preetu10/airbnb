@@ -34,7 +34,6 @@ const CarouselSection: React.FC<CarouselSectionProps> = ({ title, data }) => {
 
     return (
         <div className="relative w-full px-3 md:px-8 lg:px-8 py-5">
-            {/* Section Header with Arrows */}
             <div className="flex items-center justify-between mb-4">
                 <h3 className="font-semibold md:text-xl text-black">{title} &gt;</h3>
                 <div className="flex gap-2">
@@ -53,7 +52,6 @@ const CarouselSection: React.FC<CarouselSectionProps> = ({ title, data }) => {
                 </div>
             </div>
 
-            {/* Scrollable Container */}
             <div
                 ref={containerRef}
                 className="flex overflow-x-auto gap-4 scroll-smooth no-scrollbar"
@@ -63,7 +61,6 @@ const CarouselSection: React.FC<CarouselSectionProps> = ({ title, data }) => {
                         key={home.img}
                         className="min-w-[225px] max-w-[225px] bg-white border-0 rounded-xl shadow-sm overflow-hidden relative"
                     >
-                        {/* Image */}
                         <div className="relative">
                             <img
                                 src={home.img}
@@ -80,7 +77,6 @@ const CarouselSection: React.FC<CarouselSectionProps> = ({ title, data }) => {
                             </button>
                         </div>
 
-                        {/* Info */}
                         <div className="p-3">
                             <h4 className="font-semibold text-black">{home.title}</h4>
                             <p className="text-sm text-neutral-500">{home.available}</p>

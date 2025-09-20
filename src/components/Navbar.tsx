@@ -1,13 +1,18 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { FaGlobe } from "react-icons/fa";
 import { FcHome } from "react-icons/fc";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname } from "next/navigation";;
+import { useTranslation } from "next-i18next";
+import i18n from "../i18n/i18";
 
 const Navbar = () => {
     const pathname = usePathname();
+    const { i18n, t } = useTranslation("common"); // load translations
+
+    const [openLang, setOpenLang] = useState(false);
 
     const links = [
         {
@@ -62,6 +67,22 @@ const Navbar = () => {
             ),
         },
     ];
+    const changeLanguage = (lng: string) => {
+        i18n.changeLanguage(lng);
+        setOpenLang(false);
+    };
+    const langRef = useRef<HTMLDivElement>(null);
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (langRef.current && !langRef.current.contains(event.target as Node)) {
+                setOpenLang(false);
+            }
+        };
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, []);
 
     return (
         <div className="bg-neutral-100">
@@ -98,11 +119,27 @@ const Navbar = () => {
                 {/* Right buttons - hidden on mobile */}
                 <div className="hidden md:flex items-center space-x-3">
                     <button onClick={() => document.getElementById('my_modal_5').showModal()} className="text-black from-neutral-900 rounded-full border-0 px-3 py-2 hover:bg-gray-200">
-                            Become a host
-                        </button>
-                    <button className="rounded-full p-3 bg-gray-200 hover:bg-gray-300">
-                        <FaGlobe className="text-xl" />
+                        Become a host
                     </button>
+                    {/* Language Dropdown */}
+                    <div className="relative" ref={langRef}>
+                        <button
+                            className="rounded-full p-3 bg-gray-200 hover:bg-gray-300"
+                            onClick={() => setOpenLang(!openLang)}
+                        >
+                            <FaGlobe className="text-xl" />
+                        </button>
+                        {openLang && (
+                            <div className="absolute right-0 mt-2 w-32 bg-white border rounded-lg shadow-lg z-20">
+                                <button onClick={() => changeLanguage("en")} className="block w-full text-left px-4 py-2 hover:bg-gray-100">
+                                    English
+                                </button>
+                                <button onClick={() => changeLanguage("bn")} className="block w-full text-left px-4 py-2 hover:bg-gray-100">
+                                    বাংলা
+                                </button>
+                            </div>
+                        )}
+                    </div>
                     <button className="rounded-full p-3 bg-gray-200 hover:bg-gray-300">
                         <img src="menu.png" alt="" height="24px" width="24px" />
                     </button>

@@ -6,7 +6,7 @@ export default function FloatingPopup() {
 
   useEffect(() => {
     const handleScroll = () => {
-      setShowPopup(false); // hide on scroll
+      setShowPopup(false); 
     };
 
     window.addEventListener("scroll", handleScroll);
