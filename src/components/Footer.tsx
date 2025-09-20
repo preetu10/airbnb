@@ -104,140 +104,248 @@ const Footer = () => {
   const remainingData = tab2_contents.slice(17);
 
   return (
-    <div>
-      <footer className='bg-base-200 py-10'>
-        <div className='py-5 px-30'>
-          <h3 className='text-left font-medium text-black text-2xl '>Inspiration for future getaways</h3>
-          {/* name of each tab group should be unique */}
-          <div className="tabs tabs-border text-left">
-            <input type="radio" name="my_tabs_2" className="tab pr-10 pl-0" aria-label="Travel tips & inspiration" defaultChecked/>
-            <div className="tab-content  bg-base-200 pr-10 py-10">
-              <div className='flex flex-wrap'>
-                {
-                  tab1_contents.map(content => <div key={content.title} className='pr-8 py-3 '><a href={content.link} className='cursor-pointer text-black font-medium'>{content.title}</a><br /><a href={content.link} className='text-neutral-500 cursor pointer'>{content.subtitle}</a></div>
-                  )
-                }
-              </div>
-            </div>
-            <input type="radio" name="my_tabs_2" className="tab" aria-label="Airbnb-friendly apartments"  />
-              <div className="tab-content bg-base-200 pr-10 pl-0 py-10">
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-        {initialData.map((content) => (
-          <div key={content.city} className="py-1">
-            <a
-              href={`www.google.com/${content.city}`}
-              className="cursor-pointer text-black font-medium"
-            >
-              {content.city}
-            </a>
-            <br />
-            <a
-              href={`www.google.com/${content.city}`}
-              className="text-neutral-500 cursor-pointer"
-            >
-              {content.state}
-            </a>
-          </div>
-        ))}
+    // <div>
+    //   <footer className='bg-base-200 py-10'>
+    //     <div className='py-5 px-30'>
+    //       <h3 className='text-left font-medium text-black text-2xl '>Inspiration for future getaways</h3>
+    //       {/* name of each tab group should be unique */}
+    //       <div className="tabs tabs-border text-left">
+    //         <input type="radio" name="my_tabs_2" className="tab pr-10 pl-0" aria-label="Travel tips & inspiration" defaultChecked/>
+    //         <div className="tab-content  bg-base-200 pr-10 py-10">
+    //           <div className='flex flex-wrap'>
+    //             {
+    //               tab1_contents.map(content => <div key={content.title} className='pr-8 py-3 '><a href={content.link} className='cursor-pointer text-black font-medium'>{content.title}</a><br /><a href={content.link} className='text-neutral-500 cursor pointer'>{content.subtitle}</a></div>
+    //               )
+    //             }
+    //           </div>
+    //         </div>
+    //         <input type="radio" name="my_tabs_2" className="tab" aria-label="Airbnb-friendly apartments"  />
+    //           <div className="tab-content bg-base-200 pr-10 pl-0 py-10">
+    //   <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+    //     {initialData.map((content) => (
+    //       <div key={content.city} className="py-1">
+    //         <a
+    //           href={`www.google.com/${content.city}`}
+    //           className="cursor-pointer text-black font-medium"
+    //         >
+    //           {content.city}
+    //         </a>
+    //         <br />
+    //         <a
+    //           href={`www.google.com/${content.city}`}
+    //           className="text-neutral-500 cursor-pointer"
+    //         >
+    //           {content.state}
+    //         </a>
+    //       </div>
+    //     ))}
 
-        {/* Show More Button */}
-        {!showAll && (
-          <div className="py-1">
-            <button
-              onClick={() => setShowAll(true)}
-              className="text-black font-medium cursor-pointer"
-            >
-              <span>Show more</span> <span className="ml-1 inline"><FaArrowDown></FaArrowDown></span>
-            </button>
-          </div>
-        )}
+    //     {/* Show More Button */}
+    //     {!showAll && (
+    //       <div className="py-1">
+    //         <button
+    //           onClick={() => setShowAll(true)}
+    //           className="text-black font-medium cursor-pointer"
+    //         >
+    //           <span>Show more</span> <span className="ml-1 inline"><FaArrowDown></FaArrowDown></span>
+    //         </button>
+    //       </div>
+    //     )}
 
-        {/* Remaining Data (only if showAll is true) */}
-        {showAll &&
-          remainingData.map((content) => (
-            <div key={content.city} className="py-1">
-              <a
-                href={`www.google.com/${content.city}`}
-                className="cursor-pointer text-black font-medium"
-              >
-                {content.city}
-              </a>
-              <br />
-              <a
-                href={`www.google.com/${content.city}`}
-                className="text-neutral-500 cursor-pointer"
-              >
-                {content.state}
-              </a>
+    //     {/* Remaining Data (only if showAll is true) */}
+    //     {showAll &&
+    //       remainingData.map((content) => (
+    //         <div key={content.city} className="py-1">
+    //           <a
+    //             href={`www.google.com/${content.city}`}
+    //             className="cursor-pointer text-black font-medium"
+    //           >
+    //             {content.city}
+    //           </a>
+    //           <br />
+    //           <a
+    //             href={`www.google.com/${content.city}`}
+    //             className="text-neutral-500 cursor-pointer"
+    //           >
+    //             {content.state}
+    //           </a>
+    //         </div>
+    //       ))}
+    //   </div>
+    // </div>
+    //       </div>
+    //     </div>
+    //     <div className="footer sm:footer-horizontal bg-base-200 text-base-content p-10">
+    //       <nav className='pl-8'>
+    //         <h6 className=" font-medium text-black">Support</h6>
+    //         <a className="link link-hover">Help Center</a>
+    //         <a className="link link-hover">Get help with a safety issue</a>
+    //         <a className="link link-hover">AirCover</a>
+    //         <a className="link link-hover">Disability support</a>
+    //         <a className="link link-hover">Cancellation options</a>
+    //         <a className="link link-hover">Report neighborhood concern</a>
+    //       </nav>
+    //       <nav>
+    //         <h6 className=" font-medium text-black">Hosting</h6>
+    //         <a className="link link-hover">Airbnb your home</a>
+    //         <a className="link link-hover">Airbnb your experience</a>
+    //         <a className="link link-hover">Airbnb your service</a>
+    //         <a className="link link-hover">AirCover for Hosts</a>
+    //         <a className="link link-hover">Hosting resources</a>
+    //         <a className="link link-hover">Community forum</a>
+    //         <a className="link link-hover">Hosting responsibly</a>
+    //         <a className="link link-hover">Airbnb-friendly apartments</a>
+    //         <a className="link link-hover">Join a free Hosting class</a>
+    //         <a className="link link-hover">Find a co‑host</a>
+    //       </nav>
+    //       <nav>
+    //         <h6 className=" font-medium text-black">Airbnb</h6>
+    //         <a className="link link-hover">2025 Summer Release</a>
+    //         <a className="link link-hover">Newsroom</a>
+    //         <a className="link link-hover">Careers</a>
+    //         <a className="link link-hover">Investors</a>
+    //         <a className="link link-hover">Gift Cards</a>
+    //         <a className="link link-hover">Airbnb.org emergency stays</a>
+    //       </nav>
+    //     </div>
+    //   </footer>
+    //   <footer className="footer bg-base-200 text-base-content border-base-300 border-t px-10 py-4">
+    //     <div className='flex flex-row items-stretch gap-120 justify-between'>
+    //       <div className="grid-flow-col items-center pl-8 pr-48">
+
+    //         <p className='py-3'>
+    //           © 2025 Airbnb, Inc. . <span><a href="/terms">Terms</a></span>. <span><a href="/sitemap/v2">Sitemap</a></span>. <span><a href="/privacy">Privacy</a></span>. <span><a href="/privacy-choices">Your Privacy Choices</a></span>
+    //         </p>
+    //       </div>
+    //       <div className="md:place-self-center md:justify-self-end">
+    //         <div className="grid grid-flow-col gap-4">
+    //           <div className='flex flex-row cursor pointer gap-1 text-black'>
+    //             <FaGlobe className='text-xl'></FaGlobe> English (US)
+    //           </div>
+    //           <div className='flex flex-row cursor pointer gap-1 text-black'>
+    //             <FaDollarSign className='text-2xl'></FaDollarSign> USD
+    //           </div>
+    //           <a href="www.facebook.com/airbnb" className='flex flex-row cursor pointer gap-2'>
+    //             <FaFacebook className='text-2xl'></FaFacebook>
+    //           </a>
+    //           <a href="www.twitter.com/airbnb" className='flex flex-row cursor pointer gap-2'>
+    //             <FaX className='text-2xl'></FaX>
+    //           </a>
+    //           <a href="www.instagram.com/airbnb" className='flex flex-row cursor pointer gap-2'>
+    //             <FaInstagram className='text-2xl'></FaInstagram>
+    //           </a>
+    //         </div>
+    //       </div>
+    //     </div>
+    //   </footer>
+    // </div>
+    <div className="bg-base-200">
+      {/* Top Inspiration Section */}
+      <div className="py-10 px-4 sm:px-10 lg:px-32">
+        <h3 className="text-left font-medium text-black text-2xl mb-6">
+          Inspiration for future getaways
+        </h3>
+        <div className="tabs tabs-border text-left overflow-x-auto">
+          <input type="radio" name="my_tabs_2" className="tab md:pr-10 pl-0" aria-label="Travel tips & inspiration" defaultChecked />
+          <div className="tab-content bg-base-200 md:pr-4 py-4">
+            <div className="flex flex-wrap gap-4">
+              {tab1_contents.map((content) => (
+                <div key={content.title} className="min-w-[160px]">
+                  <a href={content.link} className="cursor-pointer text-black font-medium">{content.title}</a>
+                  <br />
+                  <a href={content.link} className="text-neutral-500 cursor-pointer">{content.subtitle}</a>
+                </div>
+              ))}
             </div>
-          ))}
+          </div>
+          <input type="radio" name="my_tabs_2" className="tab" aria-label="Airbnb-friendly apartments" />
+          <div className="tab-content bg-base-200 md:pr-4 py-4">
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
+              {initialData.map((content) => (
+                <div key={content.city} className="py-1">
+                  <a href={`www.google.com/${content.city}`} className="cursor-pointer text-black font-medium">{content.city}</a>
+                  <br />
+                  <a href={`www.google.com/${content.city}`} className="text-neutral-500 cursor-pointer">{content.state}</a>
+                </div>
+              ))}
+
+              {!showAll && (
+                <div className="py-1 col-span-full">
+                  <button
+                    onClick={() => setShowAll(true)}
+                    className="text-black font-medium flex items-center gap-1"
+                  >
+                    Show more <FaArrowDown />
+                  </button>
+                </div>
+              )}
+
+              {showAll && remainingData.map((content) => (
+                <div key={content.city} className="py-1">
+                  <a href={`www.google.com/${content.city}`} className="cursor-pointer text-black font-medium">{content.city}</a>
+                  <br />
+                  <a href={`www.google.com/${content.city}`} className="text-neutral-500 cursor-pointer">{content.state}</a>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
-          </div>
-        </div>
-        <div className="footer sm:footer-horizontal bg-base-200 text-base-content p-10">
-          <nav className='pl-8'>
-            <h6 className=" font-medium text-black">Support</h6>
-            <a className="link link-hover">Help Center</a>
-            <a className="link link-hover">Get help with a safety issue</a>
-            <a className="link link-hover">AirCover</a>
-            <a className="link link-hover">Disability support</a>
-            <a className="link link-hover">Cancellation options</a>
-            <a className="link link-hover">Report neighborhood concern</a>
-          </nav>
-          <nav>
-            <h6 className=" font-medium text-black">Hosting</h6>
-            <a className="link link-hover">Airbnb your home</a>
-            <a className="link link-hover">Airbnb your experience</a>
-            <a className="link link-hover">Airbnb your service</a>
-            <a className="link link-hover">AirCover for Hosts</a>
-            <a className="link link-hover">Hosting resources</a>
-            <a className="link link-hover">Community forum</a>
-            <a className="link link-hover">Hosting responsibly</a>
-            <a className="link link-hover">Airbnb-friendly apartments</a>
-            <a className="link link-hover">Join a free Hosting class</a>
-            <a className="link link-hover">Find a co‑host</a>
-          </nav>
-          <nav>
-            <h6 className=" font-medium text-black">Airbnb</h6>
-            <a className="link link-hover">2025 Summer Release</a>
-            <a className="link link-hover">Newsroom</a>
-            <a className="link link-hover">Careers</a>
-            <a className="link link-hover">Investors</a>
-            <a className="link link-hover">Gift Cards</a>
-            <a className="link link-hover">Airbnb.org emergency stays</a>
-          </nav>
-        </div>
-      </footer>
-      <footer className="footer bg-base-200 text-base-content border-base-300 border-t px-10 py-4">
-        <div className='flex flex-row items-stretch gap-120 justify-between'>
-          <div className="grid-flow-col items-center pl-8 pr-48">
 
-            <p className='py-3'>
-              © 2025 Airbnb, Inc. . <span><a href="/terms">Terms</a></span>. <span><a href="/sitemap/v2">Sitemap</a></span>. <span><a href="/privacy">Privacy</a></span>. <span><a href="/privacy-choices">Your Privacy Choices</a></span>
-            </p>
-          </div>
-          <div className="md:place-self-center md:justify-self-end">
-            <div className="grid grid-flow-col gap-4">
-              <div className='flex flex-row cursor pointer gap-1 text-black'>
-                <FaGlobe className='text-xl'></FaGlobe> English (US)
-              </div>
-              <div className='flex flex-row cursor pointer gap-1 text-black'>
-                <FaDollarSign className='text-2xl'></FaDollarSign> USD
-              </div>
-              <a href="www.facebook.com/airbnb" className='flex flex-row cursor pointer gap-2'>
-                <FaFacebook className='text-2xl'></FaFacebook>
-              </a>
-              <a href="www.twitter.com/airbnb" className='flex flex-row cursor pointer gap-2'>
-                <FaX className='text-2xl'></FaX>
-              </a>
-              <a href="www.instagram.com/airbnb" className='flex flex-row cursor pointer gap-2'>
-                <FaInstagram className='text-2xl'></FaInstagram>
-              </a>
-            </div>
-          </div>
+      {/* Middle Footer Links */}
+      <div className="footer flex flex-col sm:flex-row flex-wrap justify-between px-4 sm:px-10 lg:px-32 py-10 gap-8">
+        <nav>
+          <h6 className="font-medium text-black mb-2">Support</h6>
+          <ul className="space-y-1">
+            <li><a className="link link-hover">Help Center</a></li>
+            <li><a className="link link-hover">Get help with a safety issue</a></li>
+            <li><a className="link link-hover">AirCover</a></li>
+            <li><a className="link link-hover">Disability support</a></li>
+            <li><a className="link link-hover">Cancellation options</a></li>
+            <li><a className="link link-hover">Report neighborhood concern</a></li>
+          </ul>
+        </nav>
+        <nav>
+          <h6 className="font-medium text-black mb-2">Hosting</h6>
+          <ul className="space-y-1">
+            <li><a className="link link-hover">Airbnb your home</a></li>
+            <li><a className="link link-hover">Airbnb your experience</a></li>
+            <li><a className="link link-hover">Airbnb your service</a></li>
+            <li><a className="link link-hover">AirCover for Hosts</a></li>
+            <li><a className="link link-hover">Hosting resources</a></li>
+            <li><a className="link link-hover">Community forum</a></li>
+            <li><a className="link link-hover">Hosting responsibly</a></li>
+            <li><a className="link link-hover">Airbnb-friendly apartments</a></li>
+            <li><a className="link link-hover">Join a free Hosting class</a></li>
+            <li><a className="link link-hover">Find a co‑host</a></li>
+          </ul>
+        </nav>
+        <nav>
+          <h6 className="font-medium text-black mb-2">Airbnb</h6>
+          <ul className="space-y-1">
+            <li><a className="link link-hover">2025 Summer Release</a></li>
+            <li><a className="link link-hover">Newsroom</a></li>
+            <li><a className="link link-hover">Careers</a></li>
+            <li><a className="link link-hover">Investors</a></li>
+            <li><a className="link link-hover">Gift Cards</a></li>
+            <li><a className="link link-hover">Airbnb.org emergency stays</a></li>
+          </ul>
+        </nav>
+      </div>
+
+      {/* Bottom Footer */}
+      <div className="footer border-t border-base-300 px-4 sm:px-10 lg:px-32 py-4 flex flex-col sm:flex-row justify-between gap-4">
+        <p className="text-sm inline text-neutral-700">
+          © 2025 Airbnb, Inc. <a href="/terms" className="underline">Terms</a>. <a href="/sitemap/v2" className="underline">Sitemap</a>. <a href="/privacy" className="underline">Privacy</a>. <a href="/privacy-choices" className="underline">Your Privacy Choices</a>
+        </p>
+        <div className="flex flex-wrap items-center gap-4">
+          <div className="flex items-center gap-1 cursor-pointer text-black"><FaGlobe className="text-xl" /> English (US)</div>
+          <div className="flex items-center gap-1 cursor-pointer text-black"><FaDollarSign className="text-2xl" /> USD</div>
+          <a href="https://www.facebook.com/airbnb" className="text-black text-2xl"><FaFacebook /></a>
+          <a href="https://www.twitter.com/airbnb" className="text-black text-2xl"><FaTwitter /></a>
+          <a href="https://www.instagram.com/airbnb" className="text-black text-2xl"><FaInstagram /></a>
         </div>
-      </footer>
+      </div>
     </div>
   );
 };

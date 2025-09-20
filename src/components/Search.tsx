@@ -20,6 +20,7 @@ interface GuestCounts {
 type DateTabType = "dates" | "months" | "flexible";
 
 const Search = () => {
+  const [expanded, setExpanded] = useState(false);
   const [activeField, setActiveField] = useState<string | null>(null);
   const [destinationData, setDestinationData] = useState<Destination[]>([]);
   const [formValues, setFormValues] = useState<{ [key: string]: string }>({
@@ -277,7 +278,7 @@ const Search = () => {
         return (
           <>
             {/* Calendar Grid */}
-            <div className="flex gap-8">
+            <div className="flex gap-6">
               {/* Current Month */}
               <div className="flex-1">
                 <div className="flex items-center justify-between mb-4">
@@ -377,15 +378,14 @@ const Search = () => {
               </div>
             </div>
 
-            {/* Footer with date range options */}
-            <div className="flex justify-center mt-6 gap-2">
-              {["Exact dates", "± 1 day", "± 2 days", "± 3 days", "± 7 days","± 14 days"].map((option) => (
+            <div className="md:flex lg:flex sm:grid sm:grid-cols-3 justify-center mt-6md:gap-2 gap-3">
+              {["Exact dates", "± 1 day", "± 2 days", "± 3 days", "± 7 days", "± 14 days"].map((option) => (
                 <button
                   key={option}
                   onClick={() => {
                     setSelectedFlexDays(option);
 
-                    // only update inputs if checkin is selected
+
                     if (selectedDates.checkin) {
                       setFormValues((prev) => ({
                         ...prev,
@@ -396,7 +396,7 @@ const Search = () => {
                       }));
                     }
                   }}
-                  className={`px-4 py-2 border rounded-full text-sm transition 
+                  className={`px-4 m-2 py-2 border rounded-full text-sm transition 
         ${selectedFlexDays === option
                       ? "border-black bg-gray-50"
                       : "border-gray-300 hover:border-black"}
@@ -423,7 +423,7 @@ const Search = () => {
                     onClick={() => !isPast && handleMonthSelect(month)}
                     disabled={isPast}
                     className={`
-                p-4 border rounded-3xl text-center transition duration-200
+                p-2 md:p-4 lg:p-4 border rounded-3xl text-center transition duration-200 sm:text-sm md:text-normal
                 ${isPast
                         ? "border-gray-200 text-gray-400 cursor-not-allowed"
                         : selectedMonth === month
@@ -450,7 +450,7 @@ const Search = () => {
                   key={option}
                   onClick={() => handleFlexibleSelect(option)}
                   className={`
-                    p-3 border rounded-3xl text-center transition duration-200
+                    p-2 md:p-3 lg:p-3 border rounded-3xl text-center transition duration-200
                     ${selectedFlexOption === option
                       ? "border-black bg-gray-50"
                       : "border-gray-300 hover:border-gray-400"
@@ -494,51 +494,265 @@ const Search = () => {
   };
 
   return (
-    <div className="bg-neutral-100">
-      <div className="flex justify-center items-center pb-8 relative">
-        <div
-          className="flex items-center shadow-md border border-neutral-300 rounded-full bg-white px-2 py-2"
-          ref={containerRef}
-        >
-          {fields.map((field) => (
-            <div key={field.id} className="relative flex flex-col">
-              <input
-                id={field.id}
-                type="text"
-                value={formValues[field.id]}
-                placeholder={field.placeholder}
-                onFocus={() => {
-                  setActiveField(field.id);
-                  if (field.id === "checkin" || field.id === "checkout") {
-                    setDateRange(field.id as "checkin" | "checkout");
+    // <div className="bg-neutral-100">
+    //   <div className="flex justify-center items-center pb-8 relative">
+    //     <div
+    //       className="flex items-center shadow-md border border-neutral-300 rounded-full bg-white px-2 py-2"
+    //       ref={containerRef}
+    //     >
+    //       {fields.map((field) => (
+    //         <div key={field.id} className="relative flex flex-col">
+    //           <input
+    //             id={field.id}
+    //             type="text"
+    //             value={formValues[field.id]}
+    //             placeholder={field.placeholder}
+    //             onFocus={() => {
+    //               setActiveField(field.id);
+    //               if (field.id === "checkin" || field.id === "checkout") {
+    //                 setDateRange(field.id as "checkin" | "checkout");
+    //               }
+    //             }}
+    //             onChange={(e) =>
+    //               setFormValues({ ...formValues, [field.id]: e.target.value })
+    //             }
+    //             readOnly={["checkin", "checkout", "who"].includes(field.id)}
+    //             className={`px-6 py-3 text-sm cursor-pointer outline-none border-none ${activeField === field.id
+    //               ? "bg-white rounded-full shadow-sm"
+    //               : "hover:bg-gray-100 hover:rounded-full"
+    //               }`}
+    //           />
+    //         </div>
+    //       ))}
+
+    //       <button
+    //         style={{
+    //           background:
+    //             "radial-gradient(circle at center,#FF385C 0%,#E61E4D 27.5%,#E31C5F 40%,#D70466 55.5%,#BD1E59 75%,#BD1E59 100%)",
+    //         }}
+    //         className="flex items-center gap-2 text-white px-5 py-3 rounded-3xl font-semibold shadow-md hover:opacity-90 transition duration-300 ml-2"
+    //       >
+    //         <FaSearch className="text-white text-lg" />
+    //         {activeField && <span>Search</span>}
+    //       </button>
+
+    //       {/* Destinations Dropdown */}
+    //       {activeField === "where" && destinationData.length > 0 && (
+    //         <div className="absolute top-[70px] left-50 w-[450px] bg-white rounded-2xl shadow-lg p-4 z-50 max-h-92 overflow-y-auto">
+    //           <p className="text-sm font-semibold text-gray-600 mb-3">
+    //             Suggested destinations
+    //           </p>
+    //           <ul className="grid grid-cols-1 gap-2">
+    //             {destinationData.map((dest) => (
+    //               <li
+    //                 key={dest.location}
+    //                 onClick={() => handleSelectDestination(dest)}
+    //                 className="flex items-center gap-3 cursor-pointer hover:bg-gray-100 rounded-lg p-2 transition"
+    //               >
+    //                 <img
+    //                   src={dest.img}
+    //                   alt={dest.location}
+    //                   className="w-10 h-10 rounded-lg object-cover"
+    //                 />
+    //                 <div>
+    //                   <p className="text-sm font-medium">{dest.location}</p>
+    //                   <p className="text-xs text-gray-500">{dest.subtitle}</p>
+    //                 </div>
+    //               </li>
+    //             ))}
+    //           </ul>
+    //         </div>
+    //       )}
+
+    //       {/* Guest Selection Dropdown */}
+    //       {activeField === "who" && (
+    //         <div className="absolute top-[70px] right-50 w-[400px] bg-white rounded-2xl shadow-lg p-6 z-50">
+    //           <div className="space-y-6">
+    //             {guestTypes.map((guestType) => (
+    //               <div key={guestType.key} className="flex items-center justify-between">
+    //                 <div className="flex-1">
+    //                   <div className="font-medium text-gray-900">{guestType.title}</div>
+    //                   <div className="text-sm text-gray-500">{guestType.subtitle}</div>
+    //                 </div>
+    //                 <div className="flex items-center gap-3">
+    //                   <button
+    //                     onClick={() => updateGuestCount(guestType.key, false)}
+    //                     disabled={guestCounts[guestType.key] <= guestType.min}
+    //                     className={`w-8 h-8 rounded-full border flex items-center justify-center transition ${guestCounts[guestType.key] <= guestType.min
+    //                       ? "border-gray-300 text-gray-300 cursor-not-allowed"
+    //                       : "border-gray-400 text-gray-600 hover:border-gray-600"
+    //                       }`}
+    //                   >
+    //                     <FaMinus className="w-3 h-3" />
+    //                   </button>
+    //                   <span className="w-8 text-center font-medium">
+    //                     {guestCounts[guestType.key]}
+    //                   </span>
+    //                   <button
+    //                     onClick={() => updateGuestCount(guestType.key, true)}
+    //                     className="w-8 h-8 rounded-full border border-gray-400 text-gray-600 hover:border-gray-600 flex items-center justify-center transition"
+    //                   >
+    //                     <FaPlus className="w-3 h-3" />
+    //                   </button>
+    //                 </div>
+    //               </div>
+    //             ))}
+    //           </div>
+
+    //           {guestTypes[3].key === "pets" && guestCounts.pets > 0 && (
+    //             <div className="mt-4 pt-4 border-t border-gray-200">
+    //               <button className="text-sm text-gray-600 underline hover:text-gray-800">
+    //                 Bringing a service animal?
+    //               </button>
+    //             </div>
+    //           )}
+    //         </div>
+    //       )}
+
+    //       {/* Calendar Dropdown */}
+    //       {(activeField === "checkin" || activeField === "checkout") && (
+    //         <div className="absolute top-[60px] left-0 w-[700px] bg-white rounded-2xl shadow-lg p-6 z-50">
+    //           {/* Header with tabs */}
+    //           <div className="flex justify-center mb-6">
+    //             <div className="flex bg-gray-100 rounded-full p-1">
+    //               <button
+    //                 onClick={() => setActiveDateTab("dates")}
+    //                 className={`px-6 py-2 rounded-full text-sm font-medium transition ${activeDateTab === "dates"
+    //                   ? "bg-white shadow-sm text-black"
+    //                   : "text-gray-500 hover:text-gray-700"
+    //                   }`}
+    //               >
+    //                 Dates
+    //               </button>
+    //               <button
+    //                 onClick={() => setActiveDateTab("months")}
+    //                 className={`px-6 py-2 rounded-full text-sm font-medium transition ${activeDateTab === "months"
+    //                   ? "bg-white shadow-sm text-black"
+    //                   : "text-gray-500 hover:text-gray-700"
+    //                   }`}
+    //               >
+    //                 Months
+    //               </button>
+    //               <button
+    //                 onClick={() => setActiveDateTab("flexible")}
+    //                 className={`px-6 py-2 rounded-full text-sm font-medium transition ${activeDateTab === "flexible"
+    //                   ? "bg-white shadow-sm text-black"
+    //                   : "text-gray-500 hover:text-gray-700"
+    //                   }`}
+    //               >
+    //                 Flexible
+    //               </button>
+    //             </div>
+    //           </div>
+
+    //           {/* Tab Content */}
+    //           {renderDateTabContent()}
+    //         </div>
+    //       )}
+    //     </div>
+    //   </div>
+    // </div>
+
+ <div className="bg-neutral-100 py-4">
+  <div className="flex justify-center px-2 ">
+    <div
+      className="flex md:flex-wrap lg:flex-wrap flex-col items-center shadow-md border border-neutral-300 rounded-2xl bg-white px-2 py-2 w-full max-w-4xl relative"
+      ref={containerRef}
+    >
+      {/* Mobile: collapsed input */}
+      <div className="sm:hidden w-full">
+        {!expanded ? (
+          <div
+            className="flex items-center w-full cursor-pointer px-4 py-3 rounded-full border border-gray-300"
+            onClick={() => setExpanded(true)}
+          >
+            <FaSearch className="text-gray-500 mr-2" />
+            <input
+              type="text"
+              placeholder="Start your search"
+              className="w-full outline-none cursor-pointer"
+              readOnly
+            />
+          </div>
+        ) : (
+          <div className="flex flex-col gap-3">
+            {fields.map((field) => (
+              <div key={field.id} className="relative w-full">
+                <input
+                  id={field.id}
+                  type={field.id === "guests" ? "number" : "text"}
+                  name={field.id}
+                  placeholder={field.placeholder}
+                  value={formValues[field.id]}
+                  readOnly={["checkin", "checkout", "who"].includes(field.id)}
+                  onFocus={() => setActiveField(field.id)}
+                  onChange={(e) =>
+                    setFormValues({ ...formValues, [field.id]: e.target.value })
                   }
-                }}
-                onChange={(e) =>
-                  setFormValues({ ...formValues, [field.id]: e.target.value })
-                }
-                readOnly={["checkin", "checkout", "who"].includes(field.id)}
-                className={`px-6 py-3 text-sm cursor-pointer outline-none border-none ${activeField === field.id
+                  className={`px-4 py-3 text-sm cursor-pointer outline-none border border-gray-300 rounded-xl w-full ${
+                    activeField === field.id
+                      ? "bg-white shadow-sm"
+                      : "hover:bg-gray-100"
+                  }`}
+                />
+              </div>
+            ))}
+
+            {/* Search button */}
+            <button
+              className="flex items-center justify-center gap-2 text-white px-4 py-3 rounded-2xl font-semibold shadow-md hover:opacity-90 transition duration-300"
+              style={{
+                background:
+                  "radial-gradient(circle at center,#FF385C 0%,#E61E4D 27.5%,#E31C5F 40%,#D70466 55.5%,#BD1E59 75%,#BD1E59 100%)",
+              }}
+              onClick={() => console.log(formValues, guestCounts)}
+            >
+              <FaSearch className="text-white text-lg" /> Search
+            </button>
+          </div>
+        )}
+      </div>
+
+      {/* Tablet & Laptop: always show 4-input form */}
+      <div className="hidden sm:flex flex-1 items-center gap-2">
+        {fields.map((field) => (
+          <div key={field.id} className="relative flex-1 min-w-[150px]">
+            <input
+              id={field.id}
+              type={field.id === "guests" ? "number" : "text"}
+              name={field.id}
+              placeholder={field.placeholder}
+              value={formValues[field.id]}
+              readOnly={["checkin", "checkout", "who"].includes(field.id)}
+              onFocus={() => setActiveField(field.id)}
+              onChange={(e) =>
+                setFormValues({ ...formValues, [field.id]: e.target.value })
+              }
+              className={`px-6 py-3 text-sm cursor-pointer outline-none border-none w-full ${
+                activeField === field.id
                   ? "bg-white rounded-full shadow-sm"
                   : "hover:bg-gray-100 hover:rounded-full"
-                  }`}
-              />
-            </div>
-          ))}
+              }`}
+            />
+          </div>
+        ))}
 
-          <button
-            style={{
-              background:
-                "radial-gradient(circle at center,#FF385C 0%,#E61E4D 27.5%,#E31C5F 40%,#D70466 55.5%,#BD1E59 75%,#BD1E59 100%)",
-            }}
-            className="flex items-center gap-2 text-white px-5 py-3 rounded-3xl font-semibold shadow-md hover:opacity-90 transition duration-300 ml-2"
-          >
-            <FaSearch className="text-white text-lg" />
-            {activeField && <span>Search</span>}
-          </button>
+        {/* Search button */}
+        <button
+          className="flex items-center gap-2 text-white px-5 py-3 rounded-3xl font-semibold shadow-md hover:opacity-90 transition duration-300"
+          style={{
+            background:
+              "radial-gradient(circle at center,#FF385C 0%,#E61E4D 27.5%,#E31C5F 40%,#D70466 55.5%,#BD1E59 75%,#BD1E59 100%)",
+          }}
+          onClick={() => console.log(formValues, guestCounts)}
+        >
+          <FaSearch className="text-white text-lg" /> Search
+        </button>
+      </div>
 
           {/* Destinations Dropdown */}
           {activeField === "where" && destinationData.length > 0 && (
-            <div className="absolute top-[70px] left-50 w-[450px] bg-white rounded-2xl shadow-lg p-4 z-50 max-h-92 overflow-y-auto">
+            <div className="absolute top-[70px] left-0 sm:left-50 w-full sm:w-[450px] bg-white rounded-2xl shadow-lg p-4 z-50 max-h-80 sm:max-h-92 overflow-y-auto">
               <p className="text-sm font-semibold text-gray-600 mb-3">
                 Suggested destinations
               </p>
@@ -566,7 +780,7 @@ const Search = () => {
 
           {/* Guest Selection Dropdown */}
           {activeField === "who" && (
-            <div className="absolute top-[70px] right-50 w-[400px] bg-white rounded-2xl shadow-lg p-6 z-50">
+            <div className="absolute top-[70px] right-0 sm:right-50 w-full sm:w-[400px] bg-white rounded-2xl shadow-lg p-6 z-50">
               <div className="space-y-6">
                 {guestTypes.map((guestType) => (
                   <div key={guestType.key} className="flex items-center justify-between">
@@ -611,7 +825,7 @@ const Search = () => {
 
           {/* Calendar Dropdown */}
           {(activeField === "checkin" || activeField === "checkout") && (
-            <div className="absolute top-[60px] left-0 w-[700px] bg-white rounded-2xl shadow-lg p-6 z-50">
+            <div className="absolute top-[60px] left-0 w-full sm:w-[700px] bg-white rounded-2xl shadow-lg p-6 z-50 overflow-auto max-h-[90vh]">
               {/* Header with tabs */}
               <div className="flex justify-center mb-6">
                 <div className="flex bg-gray-100 rounded-full p-1">
@@ -652,6 +866,8 @@ const Search = () => {
         </div>
       </div>
     </div>
+
+
   );
 };
 

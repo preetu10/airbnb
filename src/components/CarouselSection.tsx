@@ -33,10 +33,10 @@ const CarouselSection: React.FC<CarouselSectionProps> = ({ title, data }) => {
     };
 
     return (
-        <div className="relative w-full px-8 py-5">
+        <div className="relative w-full px-3 md:px-8 lg:px-8 py-5">
             {/* Section Header with Arrows */}
             <div className="flex items-center justify-between mb-4">
-                <h3 className="font-semibold text-xl text-black">{title} &gt;</h3>
+                <h3 className="font-semibold md:text-xl text-black">{title} &gt;</h3>
                 <div className="flex gap-2">
                     <button
                         onClick={() => scroll("left")}
