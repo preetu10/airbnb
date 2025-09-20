@@ -1,4 +1,4 @@
-import FloatingPopup from "@/components/FloatingPopUp";
+import FloatingPopup from "@/components/FloatingPopup";
 import PopularHomesInDhaka from "@/components/PopularHomesInDhaka";
 
 
